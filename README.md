@@ -9,8 +9,8 @@ please take this into consideration :)
 
 # The Problem
 At this moment in time, pretty much all games require HDR to be manually enabled for it to properly function. Normally
-this isn't a problem when using Gamescope as your native compositor. Most normal people however run a fully fledged
-desktop environment on their PCs unless they're using SteamOS or Bazzite.
+this isn't a problem when using Gamescope as your native compositor. Most people however run a fully fledged desktop
+environment on their PCs unless they're using SteamOS or Bazzite.
 
 This can be annoying because running Gamescope from within KDE Plasma with the HDR flag enabled still won't magically
 make HDR work, unless it's also enabled from your compositor's side too; in this case, KWin. Although KWin has a way

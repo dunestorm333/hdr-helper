@@ -1,6 +1,7 @@
 #!/bin/bash
 
-_VERSION=1.0.1.0
+_VERSION=1.1.0.0
+CONFIG_FILE="$HOME/.config/hdr-helper/monitor.conf"
 MONITOR=     # MODIFY THESE VALUES INSIDE MONITOR.CONF #
 NATIVE_RES=  ###########################################
 TEMP_RES=    ###########################################
@@ -71,8 +72,7 @@ if [[ $(whereis kscreen-doctor) != *"kscreen-doctor" ]]; then
 fi
 
 # Import monitor.conf values
-if [ -f monitor.conf ]; then
-  source monitor.conf
+if source "$CONFIG_FILE"; then
   if [[ $MONITOR == "" ]] || [[ $NATIVE_RES == "" ]] || [[ $TEMP_RES == "" ]]; then
     echo "Error: monitor.conf has not been configured."
     exit -2
@@ -83,15 +83,15 @@ else
 fi
 
 # Handle Args
-if [[ $1 == "-e" ]] || [ $1 == "--enable" ]; then
+if [[ $1 == "-e" ]] || [[ $1 == "--enable" ]]; then
   enable_hdr
-elif [[ $1 == "-d" ]] || [ $1 == "--disable" ]; then
+elif [[ $1 == "-d" ]] || [[ $1 == "--disable" ]]; then
   disable_hdr
-elif [[ $1 == "-s" ]] || [ $1 == "--status" ]; then
+elif [[ $1 == "-s" ]] || [[ $1 == "--status" ]]; then
   show_hdr_status
-elif [[ $1 == "-v" ]] || [ $1 == "--version" ]; then
+elif [[ $1 == "-v" ]] || [[ $1 == "--version" ]]; then
   show_version
-elif [[ $1 == "-h" ]] || [ $1 == "--help" ]; then
+elif [[ $1 == "-h" ]] || [[ $1 == "--help" ]]; then
   show_help
 elif [[ $# -eq 0 ]]; then # Automatically Toggle HDR | Default Behaviour
   auto_hdr
