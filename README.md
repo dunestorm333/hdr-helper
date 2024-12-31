@@ -44,11 +44,12 @@ ln -s hdr-helper ~/.local/bin/
 chmod +x ~/.local/usr/bin/hdr-helper
 ```
 
-You will then need to modify the following three values within monitor.conf specific to your system configuration:
-```
-# MONITOR=<DP-1 | Enter your monitor ID from xrandr>
-# NATIVE_RES=<3440x1440@165 | Enter your native monitor resolution followed by the refresh rate>
-# TEMP_RES=<2560x1440@144 | Enter a different resolution or refresh rate from your native>
+You will then need to create a file named monitor.conf, copy the below template and adjust to your PC's
+configuration:
+```bash
+MONITOR=    # <DP-1 | Enter your monitor ID from xrandr>
+NATIVE_RES= # <3440x1440@165 | Enter your native monitor resolution followed by the refresh rate>
+TEMP_RES=   # <2560x1440@144 | Enter a different resolution or refresh rate from your native>
 ```
 `xrandr` will give you the following output; in the below example `DP-3` is the value we need to use to target
 the active monitor.
