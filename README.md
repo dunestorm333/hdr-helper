@@ -32,6 +32,16 @@ this script manually and force HDR to be on or off if you so desire.
 
 Simply copy the script to a location within your $PATH for ease of access, such as ~/.local/usr/bin.
 
+-OR-
+
+You may also clone this respository and create a symbolic link to the file to receive any future updates:
+```bash
+git clone https://github.com/dunestorm333/hdr-helper.git
+cd hdr-helper
+ln -s hdr-helper ~/.local/usr/bin/
+chmod +x ~/.local/usr/bin/hdr-helper
+```
+
 You will then need to modify the following three values within the script specific to your system configuration:
 ```
 # MONITOR=<DP-1 | Enter your monitor ID from xrandr>
