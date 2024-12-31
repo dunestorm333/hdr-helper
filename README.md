@@ -36,7 +36,7 @@ this script manually and force HDR to be on or off if you so desire.
 
 -OR-
 
-You may also clone this respository and create a symbolic link to the file to receive any future updates:
+You may also clone this repository and create a symbolic link to the file to receive any future updates:
 ```bash
 git clone https://github.com/dunestorm333/hdr-helper.git
 cd hdr-helper
@@ -44,7 +44,7 @@ ln -s hdr-helper ~/.local/bin/
 chmod +x ~/.local/usr/bin/hdr-helper
 ```
 
-You will then need to create a file named monitor.conf, copy the below template and adjust to your PC's
+You will then need to create the following file `~/.config/hdr-helper/monitor.conf`. Copy the below template and adjust to your PC's
 configuration:
 ```bash
 MONITOR=    # <DP-1 | Enter your monitor ID from xrandr>
@@ -93,12 +93,12 @@ hdr-helper ; gamescope -W 3440 -H 1440 -r 165 -f --hdr-enabled -- %command% ; hd
 ```
 ## Using with standalone Apps & Gamescope
 The commands you need to get this working with pretty much any app or game is very similar to the Steam method. Note that in both
-cases, Gamescope is required as HDR requires a valid HDR layer and compositior to properly function in addition to working drivers.
+cases, Gamescope is required as HDR requires a valid HDR layer and compositor to properly function in addition to working drivers.
 ``` bash
 hdr-helper; gamescope -W 3440 -w 1920 -H 1440 -h 1080 -r 165 -f --hdr-enabled ~/my-app-or-game; hdr-helper
 ```
 ## Manual Approach
-If you'd like to manually bind HDR Helper to a shotcut key for example, this can easily by configured in most desktop enviornments.
+If you'd like to manually bind HDR Helper to a shortcut key for example, this can easily by configured in most desktop environments.
 
 Using KDE Plasma, you may do this from the System Shortcuts page. Click **Add New > Command or Script...**
 ![image](https://github.com/user-attachments/assets/9bed0ef1-d299-4275-831b-2339bb7ebc45)
