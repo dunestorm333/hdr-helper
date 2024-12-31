@@ -1,0 +1,2 @@
+# Ignore all .conf files from changing
+*.conf

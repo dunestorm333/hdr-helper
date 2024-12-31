@@ -1,12 +1,9 @@
 #!/bin/bash
 
-_VERSION=1.0.0.0
-# MONITOR=<DP-1 | Enter your monitor ID from xrandr>
-# NATIVE_RES=<3440x1440@165 | Enter your native monitor resolution followed by the refresh rate>
-# TEMP_RES=<2560x1440@144 | Enter a different resolution or refresh rate from your native>
-MONITOR=DP-3
-NATIVE_RES=3440x1440@165
-TEMP_RES=2560x1440@144
+_VERSION=1.0.1.0
+MONITOR=     # MODIFY THESE VALUES INSIDE MONITOR.CONF #
+NATIVE_RES=  ###########################################
+TEMP_RES=    ###########################################
 
 show_hdr_status() {
   ICON="/usr/share/icons/breeze-dark/devices/64/monitor.svg"
@@ -60,7 +57,7 @@ show_help () {
   echo "is present on your system for HDR Helper to function."
   echo ""
   echo "--- Config ---"
-  echo "Please modify the MONITOR, NATIVE_RES and TEMP_RES values in this script."
+  echo "Please modify the MONITOR, NATIVE_RES and TEMP_RES values in monitor.conf."
 }
 
 # Check Dependencies
@@ -71,6 +68,18 @@ if [[ $(whereis kscreen-doctor) != *"kscreen-doctor" ]]; then
   show_version
 
   exit -1
+fi
+
+# Import monitor.conf values
+if [ -f monitor.conf ]; then
+  source monitor.conf
+  if [[ $MONITOR == "" ]] || [[ $NATIVE_RES == "" ]] || [[ $TEMP_RES == "" ]]; then
+    echo "Error: monitor.conf has not been configured."
+    exit -2
+  fi
+else
+  echo "Error: monitor.conf file not found. Please ensure it's been properly setup."
+  exit -3
 fi
 
 # Handle Args
