@@ -30,7 +30,9 @@ this script manually and force HDR to be on or off if you so desire.
 
 # Setup
 
-Simply copy the script to a location within your $PATH for ease of access, such as ~/.local/usr/bin.
+1. Copy the script to a location within your $PATH for ease of access, such as ~/.local/usr/bin.
+2. Modify the monitor.conf file.
+3. You should now be able to call `hdr-helper -v` from your terminal
 
 -OR-
 
@@ -42,7 +44,7 @@ ln -s hdr-helper ~/.local/usr/bin/
 chmod +x ~/.local/usr/bin/hdr-helper
 ```
 
-You will then need to modify the following three values within the script specific to your system configuration:
+You will then need to modify the following three values within monitor.conf specific to your system configuration:
 ```
 # MONITOR=<DP-1 | Enter your monitor ID from xrandr>
 # NATIVE_RES=<3440x1440@165 | Enter your native monitor resolution followed by the refresh rate>
@@ -71,7 +73,7 @@ Currently only KDE Plasma is supported running Wayland. Ensure that kscreen-doct
 is present on your system for HDR Helper to function.
 
 --- Config ---
-Please modify the MONITOR, NATIVE_RES and TEMP_RES values in this script.
+Please modify the MONITOR, NATIVE_RES and TEMP_RES values in monitor.conf.
 ```
 
 # Usage
