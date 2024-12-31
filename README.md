@@ -38,7 +38,7 @@ You may also clone this respository and create a symbolic link to the file to re
 ```bash
 git clone https://github.com/dunestorm333/hdr-helper.git
 cd hdr-helper
-ln -s hdr-helper ~/.local/usr/bin/
+ln -s hdr-helper ~/.local/bin/
 chmod +x ~/.local/usr/bin/hdr-helper
 ```
 
