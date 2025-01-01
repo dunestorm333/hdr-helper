@@ -41,7 +41,7 @@ You may also clone this repository and create a symbolic link to the file to rec
 git clone https://github.com/dunestorm333/hdr-helper.git
 cd hdr-helper
 ln -s hdr-helper ~/.local/bin/
-chmod +x ~/.local/usr/bin/hdr-helper
+chmod +x ~/.local/bin/hdr-helper
 ```
 
 You will then need to create the following file `~/.config/hdr-helper/monitor.conf`. Copy the below template and adjust to your PC's
