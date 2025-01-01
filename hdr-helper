@@ -16,21 +16,21 @@ show_hdr_status() {
 }
 
 set_brightness() {
-  if [ "$HDR_TARGET_BRIGHTNESS" -gt 0 ]; then
+  if [[ "$SDR_TARGET_BRIGHTNESS" -gt 0 ]]; then
+  # Store the current brightness level before attempting to update it.
     kscreen-doctor -o | \
       grep Brightness | \
       head -n 1 | \
-      sed 's/.*set to \([0-9]\+\)%.*/\1/' \
-          > $CONFIG_CURR_BRIGHTNESS
-    echo "DEBUG: TARGET BRIGHTNESS" $HDR_TARGET_BRIGHTNESS
-    kscreen-doctor output.$MONITOR.brightness.$HDR_TARGET_BRIGHTNESS
+      grep -oP "(?<=set to )[0-9]+" \
+      > $CONFIG_CURR_BRIGHTNESS
+    kscreen-doctor output.$MONITOR.brightness.$SDR_TARGET_BRIGHTNESS
   fi
 }
 
 restore_brightness() {
   if [ -f $CONFIG_CURR_BRIGHTNESS ]; then
-    echo "Debug: CURRENT BRIGHTNESS" $(cat $CONFIG_CURR_BRIGHTNESS)
     kscreen-doctor output.$MONITOR.brightness.$(cat $CONFIG_CURR_BRIGHTNESS)
+    rm $CONFIG_CURR_BRIGHTNESS
   fi
 }
 

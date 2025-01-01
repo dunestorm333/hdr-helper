@@ -1,4 +1,4 @@
-# hdr-helper
+# hdr-helper 💻
 Linux script to control and automatically toggle HDR on KDE Plasma.
 
 ![image](https://github.com/user-attachments/assets/87bc05e1-9235-487c-a61f-c03f273b3e4a)
@@ -6,6 +6,12 @@ Linux script to control and automatically toggle HDR on KDE Plasma.
 I've personally tested this on Fedora 41 Plasma Edition on an RX 6800XT using the standard RADV drivers which
 are built into the Linux Kernel. I only have one display, I've not accounted for multi-display scenarios so 
 please take this into consideration :)
+
+## Supported Features 📋
+- Automatically & manually toggling HDR on and off.
+- Notifying you whether HDR has been successfully activated.
+- Setting a target SDR brightness level whilst in HDR mode.
+    - Your original non-HDR brightness level will be preserved when switching back.
 
 # The Problem
 At this moment in time, pretty much all games require HDR to be manually enabled for it to properly function. Normally
@@ -29,30 +35,20 @@ this script manually and force HDR to be on or off if you so desire.
 ---
 
 # Setup
-
-1. Copy the script to a location within your $PATH for ease of access, such as ~/.local/usr/bin.
-2. Modify the monitor.conf file.
-3. You should now be able to call `hdr-helper -v` from your terminal
-
--OR-
-
-You may also clone this repository and create a symbolic link to the file to receive any future updates:
+To start with, clone this repository and create a symbolic link to the file:
 ```bash
 git clone https://github.com/dunestorm333/hdr-helper.git
 cd hdr-helper
 ln -s hdr-helper ~/.local/bin/
-chmod +x ~/.local/usr/bin/hdr-helper
+chmod +x ~/.local/bin/hdr-helper
+
+# You will also need to copy monitor.conf into ~/.config/hdr-helper
+mkdir ~/.config/hdr-helper
+cp monitor.conf ~/.config/hdr-helper
 ```
 
-You will then need to create the following file `~/.config/hdr-helper/monitor.conf`. Copy the below template and adjust to your PC's
-configuration:
-```bash
-MONITOR=                    # DP-1 | Enter your monitor ID from xrandr.
-NATIVE_RES=                 # 3440x1440@165 | Enter your native monitor resolution followed by the refresh rate.
-TEMP_RES=                   # 2560x1440@144 | Enter a different resolution or refresh rate from your native.
-HDR_TARGET_BRIGHTNESS=0     # 100 | Enter a target brightness level for your display in HDR mode [0,10-100].
-                            # 0 | Default
-```
+**Ensure to modify `monitor.conf` with your desired settings.**
+
 `xrandr` will give you the following output; in the below example `DP-3` is the value we need to use to target
 the active monitor.
 ```
@@ -97,7 +93,7 @@ hdr-helper ; gamescope -W 3440 -H 1440 -r 165 -f --hdr-enabled -- %command% ; hd
 The commands you need to get this working with pretty much any app or game is very similar to the Steam method. Note that in both
 cases, Gamescope is required as HDR requires a valid HDR layer and compositor to properly function in addition to working drivers.
 ``` bash
-hdr-helper; gamescope -W 3440 -w 1920 -H 1440 -h 1080 -r 165 -f --hdr-enabled ~/my-app-or-game; hdr-helper
+hdr-helper; gamescope -W 3440 -H 1440 -r 165 -f --hdr-enabled ~/my-app-or-game; hdr-helper
 ```
 ## Manual Approach
 If you'd like to manually bind HDR Helper to a shortcut key for example, this can easily by configured in most desktop environments.
