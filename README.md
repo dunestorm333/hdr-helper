@@ -11,6 +11,7 @@ please take this into consideration :)
 - Automatically & manually toggling HDR on and off.
 - Notifying you whether HDR has been successfully activated.
 - Setting a target SDR brightness level whilst in HDR mode.
+- Setting a target SDR to HDR coversion brightness level in nits.
     - Your original non-HDR brightness level will be preserved when switching back.
 
 # The Problem
