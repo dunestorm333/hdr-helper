@@ -30,7 +30,7 @@ this script manually and force HDR to be on or off if you so desire.
 
 # Setup
 
-1. Copy the script to a location within your $PATH for ease of access, such as ~/.local/usr/bin.
+1. Copy the script to a location within your $PATH for ease of access, such as ~/.local/bin.
 2. Modify the monitor.conf file.
 3. You should now be able to call `hdr-helper -v` from your terminal
 
