@@ -47,9 +47,11 @@ chmod +x ~/.local/usr/bin/hdr-helper
 You will then need to create the following file `~/.config/hdr-helper/monitor.conf`. Copy the below template and adjust to your PC's
 configuration:
 ```bash
-MONITOR=    # <DP-1 | Enter your monitor ID from xrandr>
-NATIVE_RES= # <3440x1440@165 | Enter your native monitor resolution followed by the refresh rate>
-TEMP_RES=   # <2560x1440@144 | Enter a different resolution or refresh rate from your native>
+MONITOR=                    # DP-1 | Enter your monitor ID from xrandr.
+NATIVE_RES=                 # 3440x1440@165 | Enter your native monitor resolution followed by the refresh rate.
+TEMP_RES=                   # 2560x1440@144 | Enter a different resolution or refresh rate from your native.
+HDR_TARGET_BRIGHTNESS=0     # 100 | Enter a target brightness level for your display in HDR mode [0,10-100].
+                            # 0 | Default
 ```
 `xrandr` will give you the following output; in the below example `DP-3` is the value we need to use to target
 the active monitor.
