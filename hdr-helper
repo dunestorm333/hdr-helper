@@ -1,9 +1,10 @@
 #!/bin/bash
 
-_VERSION=1.1.0.0
+_VERSION=1.2.0.0
 CONFIG_PATH="$HOME/.config/hdr-helper/"
 CONFIG_FILE="$CONFIG_PATH/monitor.conf"
-CONFIG_CURR_BRIGHTNESS="$CONFIG_PATH/current-brightness-level"
+CURR_BRIGHT_LVL_PATH="/tmp/hdr-helper/"
+CURR_BRIGHT_LVL_FILE="$CURR_BRIGHT_LVL_PATH/current-brightness-level"
 
 show_hdr_status() {
   ICON="/usr/share/icons/breeze-dark/devices/64/monitor.svg"
@@ -16,21 +17,30 @@ show_hdr_status() {
 }
 
 set_brightness() {
-  if [[ "$SDR_TARGET_BRIGHTNESS" -gt 0 ]]; then
   # Store the current brightness level before attempting to update it.
-    kscreen-doctor -o | \
-      grep Brightness | \
-      head -n 1 | \
-      grep -oP "(?<=set to )[0-9]+" \
-      > $CONFIG_CURR_BRIGHTNESS
+  if [ ! -f $CURR_BRIGHT_LVL_PATH ]; then
+    mkdir $CURR_BRIGHT_LVL_PATH
+  fi 
+
+  kscreen-doctor -o | \
+    grep Brightness | \
+    head -n 1 | \
+    grep -oP "(?<=set to )[0-9]+" \
+    > $CURR_BRIGHT_LVL_FILE
+
+  if [ -v SDR_TARGET_BRIGHTNESS ]; then
     kscreen-doctor output.$MONITOR.brightness.$SDR_TARGET_BRIGHTNESS
+  fi
+
+  if [ -v SDR_TARGET_BRIGHTNESS_NITS ]; then 
+    kscreen-doctor output.$MONITOR.sdr-brightness.$SDR_TARGET_BRIGHTNESS_NITS
   fi
 }
 
 restore_brightness() {
-  if [ -f $CONFIG_CURR_BRIGHTNESS ]; then
-    kscreen-doctor output.$MONITOR.brightness.$(cat $CONFIG_CURR_BRIGHTNESS)
-    rm $CONFIG_CURR_BRIGHTNESS
+  if [ -f $CURR_BRIGHT_LVL_FILE ]; then
+    kscreen-doctor output.$MONITOR.brightness.$(cat $CURR_BRIGHT_LVL_FILE)
+    rm $CURR_BRIGHT_LVL_FILE
   fi
 }
 
@@ -42,12 +52,14 @@ refresh_display() {
 
 enable_hdr () {
   kscreen-doctor output.$MONITOR.hdr.enable
+  kscreen-doctor output.$MONITOR.wcg.enable
   refresh_display
   set_brightness
 }
 
 disable_hdr() {
   kscreen-doctor output.$MONITOR.hdr.disable
+  kscreen-doctor output.$MONITOR.wcg.disable
   refresh_display
   restore_brightness
 }
@@ -78,7 +90,11 @@ show_help () {
   echo "is present on your system for HDR Helper to function."
   echo ""
   echo "--- Config ---"
-  echo "Please modify the MONITOR, NATIVE_RES and TEMP_RES values in monitor.conf."
+  echo "Copy monitor.conf to ~/.config/hdr-helper and ensure to modify this file with your"
+  echo "desired settings."
+  echo ""
+  echo "Please refer to README.md or https://github.com/dunestorm333/hdr-helper for further"
+  echo "setup instructions."
 }
 
 # Check Dependencies
