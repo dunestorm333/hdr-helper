@@ -1,6 +1,6 @@
 #!/bin/bash
 
-_VERSION=1.2.0.0
+_VERSION=1.2.0.1
 CONFIG_PATH="$HOME/.config/hdr-helper/"
 CONFIG_FILE="$CONFIG_PATH/monitor.conf"
 CURR_BRIGHT_LVL_PATH="/tmp/hdr-helper/"
@@ -9,7 +9,7 @@ CURR_BRIGHT_LVL_FILE="$CURR_BRIGHT_LVL_PATH/current-brightness-level"
 show_hdr_status() {
   ICON="/usr/share/icons/breeze-dark/devices/64/monitor.svg"
  
-  if [[ $(kscreen-doctor -o | grep HDR) == *"enabled"* ]]; then
+  if [[ $(kscreen-doctor -o | grep -A 15 $MONITOR | grep HDR) == *"enabled"* ]]; then
     notify-send -a "HDR Helper" -i $ICON "HDR Enabled"
   else 
     notify-send -a "HDR Helper" -i $ICON "HDR Disabled"
@@ -65,7 +65,7 @@ disable_hdr() {
 }
 
 auto_hdr() {
-  if [[ $(kscreen-doctor -o | grep HDR) == *"enabled"* ]]; then
+  if [[ $(kscreen-doctor -o | grep -A 15 $MONITOR | grep HDR) == *"enabled"* ]]; then
     disable_hdr
   else
     enable_hdr
