@@ -22,7 +22,7 @@ environment on their PCs unless they're using SteamOS or Bazzite.
 This can be annoying because running Gamescope from within KDE Plasma with the HDR flag enabled still won't magically
 make HDR work, unless it's also enabled from your compositor's side too; in this case, KWin. Although KWin has a way
 to enable HDR from the command line, the implementation is flawed as most monitors will only properly display HDR
-prior to switching video modes. In other words, the HDR signal must be present BEFORE HDR-compatible monitors will
+after also changing video modes. In other words, the HDR signal must be present BEFORE HDR-compatible monitors will
 recognise what to do; this happens usually once the monitor is forced to change resolution or refresh rate.
 
 # The Solution
@@ -40,6 +40,9 @@ To start with, clone this repository and create a symbolic link to the file:
 ```bash
 git clone https://github.com/dunestorm333/hdr-helper.git
 cd hdr-helper
+# Not all distros will create the below path, create it assuming that it doesn't
+# exist on your system
+mkdir ~/.local/bin/
 ln -s hdr-helper ~/.local/bin/
 chmod +x ~/.local/bin/hdr-helper
 
