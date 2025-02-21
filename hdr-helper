@@ -65,13 +65,14 @@ disable_hdr() {
 }
 
 test_hdr_support() {
-if [[ $(kscreen-doctor -o | grep -A 15 $MONITOR | grep "HDR" | awk '{ print $3 }') == *"incapable"* ]]; then
+  HDR_CONTEXT=$(kscreen-doctor -o | grep -A 15 $MONITOR | grep "HDR" | awk '{ print $3 }')
+if [[ $HDR_CONTEXT == *"incapable"* ]]; then
   echo "❌ HDR capabilities are either disabled or not supported on your current display."
   echo ""
   echo "Please check the correct display is configured in monitor.conf and that"
   echo "HDR is both supported and enabled."
   echo ""
-elif [[ $(kscreen-doctor -o | grep -A 15 $MONITOR | grep "HDR" | awk '{ print $3 }') == *"enabled"* || *"disabled"* ]]; then
+elif [[ $HDR_CONTEXT == *"enabled"* || *"disabled"* ]]; then
   echo "✅ HDR capabilities are supported on your current display."
   echo ""
 else
