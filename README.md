@@ -40,10 +40,15 @@ To start with, clone this repository and create a symbolic link to the file:
 ```bash
 git clone https://github.com/dunestorm333/hdr-helper.git
 cd hdr-helper
+
 # Not all distros will create the below path, create it assuming that it doesn't
-# exist on your system
+# exist on your system. Some distros can be fussy where they search for the path.
 mkdir ~/.local/bin/
+# For Fedora based distros (more portable)
 ln -s $PWD/hdr-helper ~/.local/bin/
+# For Arch based distros (more compatible)
+sudo ln -s $PWD/hdr-helper /usr/bin/
+
 chmod +x ~/.local/bin/hdr-helper
 
 # You will also need to copy monitor.conf into ~/.config/hdr-helper
