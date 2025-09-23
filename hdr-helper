@@ -1,6 +1,6 @@
 #!/bin/bash
 
-_VERSION=1.2.1.0
+_VERSION=1.2.1.1
 CONFIG_PATH="$HOME/.config/hdr-helper/"
 CONFIG_FILE="$CONFIG_PATH/monitor.conf"
 CURR_BRIGHT_LVL_PATH="/tmp/hdr-helper/"
@@ -70,7 +70,8 @@ if [[ $HDR_CONTEXT == *"incapable"* ]]; then
   echo "❌ HDR capabilities are either disabled or not supported on your current display."
   echo ""
   echo "Please check the correct display is configured in monitor.conf and that"
-  echo "HDR is both supported and enabled."
+  echo "HDR is both supported and enabled. Wayland is required as X11 does not have"
+  echo "any support for HDR."
   echo ""
 elif [[ $HDR_CONTEXT == *"enabled"* || *"disabled"* ]]; then
   echo "✅ HDR capabilities are supported on your current display."

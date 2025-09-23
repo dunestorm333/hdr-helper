@@ -43,7 +43,7 @@ cd hdr-helper
 # Not all distros will create the below path, create it assuming that it doesn't
 # exist on your system
 mkdir ~/.local/bin/
-ln -s hdr-helper ~/.local/bin/
+ln -s $PWD/hdr-helper ~/.local/bin/
 chmod +x ~/.local/bin/hdr-helper
 
 # You will also need to copy monitor.conf into ~/.config/hdr-helper
