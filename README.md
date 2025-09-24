@@ -3,7 +3,7 @@ Linux script to control and automatically toggle HDR on KDE Plasma.
 
 ![image](https://github.com/user-attachments/assets/87bc05e1-9235-487c-a61f-c03f273b3e4a)
 
-I've personally tested this on Fedora 41 Plasma Edition on an RX 6800XT using the standard RADV drivers which
+I've personally tested this on Fedora 41 & 42, and Arch Linux (all running the Plasma DE) on an RX 6800XT using the standard RADV drivers which
 are built into the Linux Kernel. I only have one display, I've not accounted for multi-display scenarios so 
 please take this into consideration :)
 
