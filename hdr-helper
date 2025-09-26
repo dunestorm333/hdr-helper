@@ -1,6 +1,6 @@
 #!/bin/bash
 
-_VERSION=1.2.1.1
+VERSION=1.3.0.0
 CONFIG_PATH="$HOME/.config/hdr-helper/"
 CONFIG_FILE="$CONFIG_PATH/monitor.conf"
 CURR_BRIGHT_LVL_PATH="/tmp/hdr-helper/"
@@ -45,37 +45,39 @@ restore_brightness() {
 }
 
 refresh_display() {
-  kscreen-doctor output.$MONITOR.mode.$TEMP_RES
-  kscreen-doctor output.$MONITOR.mode.$NATIVE_RES
+  kscreen-doctor output.$MONITOR.mode.$TEMP_RES > /dev/null 2>&1
+  kscreen-doctor output.$MONITOR.mode.$NATIVE_RES > /dev/null 2>&1
   show_hdr_status
 }
 
 enable_hdr () {
-  kscreen-doctor output.$MONITOR.hdr.enable
-  kscreen-doctor output.$MONITOR.wcg.enable
+  kscreen-doctor output.$MONITOR.hdr.enable > /dev/null 2>&1
+  kscreen-doctor output.$MONITOR.wcg.enable > /dev/null 2>&1
   refresh_display
   set_brightness
 }
 
 disable_hdr() {
-  kscreen-doctor output.$MONITOR.hdr.disable
-  kscreen-doctor output.$MONITOR.wcg.disable
+  kscreen-doctor output.$MONITOR.hdr.disable > /dev/null 2>&1
+  kscreen-doctor output.$MONITOR.wcg.disable > /dev/null 2>&1
   refresh_display
   restore_brightness
 }
 
 test_hdr_support() {
+if [[ $XDG_SESSION_TYPE != "wayland" ]]; then
+  echo "⚠️  Warning: You are not running Wayland. HDR is not supported on X11."
+  exit -5
+fi
+
   HDR_CONTEXT=$(kscreen-doctor -o | grep -A 15 $MONITOR | grep "HDR" | awk '{ print $3 }')
 if [[ $HDR_CONTEXT == *"incapable"* ]]; then
   echo "❌ HDR capabilities are either disabled or not supported on your current display."
   echo ""
   echo "Please check the correct display is configured in monitor.conf and that"
-  echo "HDR is both supported and enabled. Wayland is required as X11 does not have"
-  echo "any support for HDR."
-  echo ""
+  echo "HDR is both supported and enabled."
 elif [[ $HDR_CONTEXT == *"enabled"* || *"disabled"* ]]; then
   echo "✅ HDR capabilities are supported on your current display."
-  echo ""
 else
   echo "ERROR: Unhandled HDR status"
   exit -4
@@ -91,7 +93,7 @@ auto_hdr() {
 }
 
 show_version() {
-  echo "HDR Helper v"$_VERSION
+  echo "HDR Helper v"$VERSION
 }
 
 show_help () {
