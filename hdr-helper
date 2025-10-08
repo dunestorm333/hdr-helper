@@ -141,7 +141,8 @@ fi
 
 
 import_config() {
-  if source "$CONFIG_FILE"; then
+  if [[ -f "$CONFIG_FILE" ]]; then
+    source $CONFIG_FILE
     if [[ $MONITOR == "" ]] || [[ $NATIVE_RES == "" ]] || [[ $TEMP_RES == "" ]]; then
       echo "Error: monitor.conf has not been configured."
       exit -2
