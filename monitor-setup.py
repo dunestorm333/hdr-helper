@@ -6,8 +6,11 @@ import shutil
 class MonitorSetup():
     def __init__(self):
         self._stg_conf_file = "monitor.conf"
-        self._conf_file_path = os.path.join(os.path.expanduser('~'),
-                                            ".config/hdr-helper",self._stg_conf_file)
+        self._conf_file_dir = os.path.join(os.path.expanduser('~'),
+                                            ".config/hdr-helper")
+        self._conf_file_path = os.path.join(self._conf_file_dir,
+                                            self._stg_conf_file)
+
         ################################
         self.default_mode = None
         self.alt_rate = None
@@ -80,6 +83,9 @@ class MonitorSetup():
                     file.write(line)
             
     def copy_config_file(self):
+        if not os.path.exists(self._conf_file_dir):
+            os.makedirs(self._conf_file_dir)
+
         # Backup existing config file if it exists
         if os.path.isfile(self._conf_file_path):
             shutil.move(self._conf_file_path, self._conf_file_path + ".backup" )
