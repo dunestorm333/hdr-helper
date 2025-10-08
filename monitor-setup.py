@@ -1,9 +1,14 @@
 import re
 import subprocess
 import os
+import shutil
 
-class Setup():
+class MonitorSetup():
     def __init__(self):
+        self._stg_conf_file = "monitor.conf"
+        self._conf_file_path = os.path.join(os.path.expanduser('~'),
+                                            ".config/hdr-helper",self._stg_conf_file)
+        ################################
         self.default_mode = None
         self.alt_rate = None
         self.alt_res_and_rate = None
@@ -54,12 +59,11 @@ class Setup():
         print(f"Alternative Resolution and Rate: {self.alt_res_and_rate}")
 
     def edit_config_file(self):
-        conf_file = "monitor.conf"
-        if os.path.isfile(conf_file):
-            with open(conf_file, "r") as file:
+        if os.path.isfile(self._stg_conf_file):
+            with open(self._stg_conf_file, "r") as file:
                 lines = file.readlines()
 
-            with open(conf_file, "w") as file:            
+            with open(self._stg_conf_file, "w") as file:            
                 for line in lines:
                     if "MONITOR=" in line:
                         line = line.replace("MONITOR=\n", f"MONITOR={self.output_name}\n")
@@ -75,9 +79,17 @@ class Setup():
                         
                     file.write(line)
             
+    def copy_config_file(self):
+        # Backup existing config file if it exists
+        if os.path.isfile(self._conf_file_path):
+            shutil.move(self._conf_file_path, self._conf_file_path + ".backup" )
+        
+        # Copy staging config file to target location
+        if os.path.isfile(self._stg_conf_file):
+            shutil.copy(self._stg_conf_file, self._conf_file_path)
+        
 
-
-setup = Setup()
+setup = MonitorSetup()
 setup.extract_display_info()
-#setup.print_display_info()
 setup.edit_config_file()
+setup.copy_config_file()

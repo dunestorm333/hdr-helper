@@ -84,6 +84,10 @@ else
 fi
 }
 
+setup_conf_file() {
+  python monitor-setup.py
+}
+
 auto_hdr() {
   if [[ $(kscreen-doctor -o | grep -A 15 $MONITOR | grep HDR) == *"enabled"* ]]; then
     disable_hdr
@@ -112,6 +116,8 @@ show_help () {
   echo "	hdr-helper -h (--help)"
   echo "Tests whether the connected display is HDR capable"
   echo "	hdr-helper -t (--test)"
+  echo "Automate monitor.conf file setup"
+  echo "	hdr-helper -a (--auto-setup-conf-file)"
   echo ""
   echo "=== Info ==="
   echo "Currently only KDE Plasma is supported running Wayland. Ensure that kscreen-doctor"
@@ -158,6 +164,8 @@ elif [[ $1 == "-h" ]] || [[ $1 == "--help" ]]; then
   show_help
 elif [[ $1 == "-t" ]] || [[ $1 == "--test" ]]; then
   test_hdr_support
+elif [[ $1 == "-a" ]] || [[ $1 == "--auto-setup-conf-file" ]]; then
+  setup_conf_file
 elif [[ $# -eq 0 ]]; then # Automatically Toggle HDR | Default Behaviour
   auto_hdr
 else
