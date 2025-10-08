@@ -140,23 +140,27 @@ if [[ $(whereis kscreen-doctor) != *"kscreen-doctor" ]]; then
 fi
 
 
-# Import monitor.conf values
-if source "$CONFIG_FILE"; then
-  if [[ $MONITOR == "" ]] || [[ $NATIVE_RES == "" ]] || [[ $TEMP_RES == "" ]]; then
-    echo "Error: monitor.conf has not been configured."
-    exit -2
+import_config() {
+  if source "$CONFIG_FILE"; then
+    if [[ $MONITOR == "" ]] || [[ $NATIVE_RES == "" ]] || [[ $TEMP_RES == "" ]]; then
+      echo "Error: monitor.conf has not been configured."
+      exit -2
+    fi
+  else
+    echo "Error: monitor.conf file not found. Please ensure it's been properly setup."
+    exit -3
   fi
-else
-  echo "Error: monitor.conf file not found. Please ensure it's been properly setup."
-  exit -3
-fi
+}
 
 # Handle Args
 if [[ $1 == "-e" ]] || [[ $1 == "--enable" ]]; then
+  import_config
   enable_hdr
 elif [[ $1 == "-d" ]] || [[ $1 == "--disable" ]]; then
+  import_config
   disable_hdr
 elif [[ $1 == "-s" ]] || [[ $1 == "--status" ]]; then
+  import_config
   show_hdr_status
 elif [[ $1 == "-v" ]] || [[ $1 == "--version" ]]; then
   show_version
