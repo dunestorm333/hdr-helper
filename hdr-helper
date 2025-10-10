@@ -148,7 +148,8 @@ import_config() {
       exit -2
     fi
   else
-    echo "Error: monitor.conf file not found. Please ensure it's been properly setup."
+    echo "❌ Error: monitor.conf file not found. Please ensure it's been properly setup."
+    echo "Try running 'hdr-helper -a' to try automatically generating one."
     exit -3
   fi
 }
@@ -172,6 +173,7 @@ elif [[ $1 == "-t" ]] || [[ $1 == "--test" ]]; then
 elif [[ $1 == "-a" ]] || [[ $1 == "--auto-setup-conf-file" ]]; then
   setup_conf_file
 elif [[ $# -eq 0 ]]; then # Automatically Toggle HDR | Default Behaviour
+  import_config
   auto_hdr
 else
   show_help
