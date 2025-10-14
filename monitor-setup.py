@@ -96,7 +96,7 @@ class MonitorSetup():
             if _validation_check_cnt != 3:  
                 print("❌ Automation configuration failed, one or more settings could not be detected.")
                 self.log_display_info()
-                exit(-1)
+                exit(1)
                
             if not os.path.isfile(self._stg_conf_file):
                 print("❌ Error creating configuration file.")

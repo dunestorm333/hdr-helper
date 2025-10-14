@@ -8,10 +8,10 @@ CURR_BRIGHT_LVL_FILE="$CURR_BRIGHT_LVL_PATH/current-brightness-level"
 
 show_hdr_status() {
   ICON="/usr/share/icons/breeze-dark/devices/64/monitor.svg"
- 
-  if [[ $(kscreen-doctor -o | grep -A 15 $MONITOR | grep HDR) == *"enabled"* ]]; then
+
+  if [[ $(kscreen-doctor -o | grep -A 15 "$MONITOR" | grep HDR) == *"enabled"* ]]; then
     notify-send -a "HDR Helper" -i $ICON "HDR Enabled"
-  else 
+  else
     notify-send -a "HDR Helper" -i $ICON "HDR Disabled"
   fi
 }
@@ -20,68 +20,68 @@ set_brightness() {
   # Store the current brightness level before attempting to update it.
   if [ ! -f $CURR_BRIGHT_LVL_PATH ]; then
     mkdir $CURR_BRIGHT_LVL_PATH
-  fi 
-
-  kscreen-doctor -o | \
-    grep Brightness | \
-    head -n 1 | \
-    grep -oP "(?<=set to )[0-9]+" \
-    > $CURR_BRIGHT_LVL_FILE
-
-  if [ -v SDR_TARGET_BRIGHTNESS ]; then
-    kscreen-doctor output.$MONITOR.brightness.$SDR_TARGET_BRIGHTNESS
   fi
 
-  if [ -v SDR_TARGET_BRIGHTNESS_NITS ]; then 
-    kscreen-doctor output.$MONITOR.sdr-brightness.$SDR_TARGET_BRIGHTNESS_NITS
+  kscreen-doctor -o |
+    grep Brightness |
+    head -n 1 |
+    grep -oP "(?<=set to )[0-9]+" \
+      >$CURR_BRIGHT_LVL_FILE
+
+  if [ -v SDR_TARGET_BRIGHTNESS ]; then
+    kscreen-doctor output."$MONITOR".brightness."$SDR_TARGET_BRIGHTNESS"
+  fi
+
+  if [ -v SDR_TARGET_BRIGHTNESS_NITS ]; then
+    kscreen-doctor output."$MONITOR".sdr-brightness."$SDR_TARGET_BRIGHTNESS_NITS"
   fi
 }
 
 restore_brightness() {
   if [ -f $CURR_BRIGHT_LVL_FILE ]; then
-    kscreen-doctor output.$MONITOR.brightness.$(cat $CURR_BRIGHT_LVL_FILE)
+    kscreen-doctor output."$MONITOR".brightness."$(cat $CURR_BRIGHT_LVL_FILE)"
     rm $CURR_BRIGHT_LVL_FILE
   fi
 }
 
 refresh_display() {
-  kscreen-doctor output.$MONITOR.mode.$TEMP_RES > /dev/null 2>&1
-  kscreen-doctor output.$MONITOR.mode.$NATIVE_RES > /dev/null 2>&1
+  kscreen-doctor output."$MONITOR".mode."$TEMP_RES" >/dev/null 2>&1
+  kscreen-doctor output."$MONITOR".mode."$NATIVE_RES" >/dev/null 2>&1
   show_hdr_status
 }
 
-enable_hdr () {
-  kscreen-doctor output.$MONITOR.hdr.enable > /dev/null 2>&1
-  kscreen-doctor output.$MONITOR.wcg.enable > /dev/null 2>&1
+enable_hdr() {
+  kscreen-doctor output."$MONITOR".hdr.enable >/dev/null 2>&1
+  kscreen-doctor output."$MONITOR".wcg.enable >/dev/null 2>&1
   refresh_display
   set_brightness
 }
 
 disable_hdr() {
-  kscreen-doctor output.$MONITOR.hdr.disable > /dev/null 2>&1
-  kscreen-doctor output.$MONITOR.wcg.disable > /dev/null 2>&1
+  kscreen-doctor output."$MONITOR".hdr.disable >/dev/null 2>&1
+  kscreen-doctor output."$MONITOR".wcg.disable >/dev/null 2>&1
   refresh_display
   restore_brightness
 }
 
 test_hdr_support() {
-if [[ $XDG_SESSION_TYPE != "wayland" ]]; then
-  echo "⚠️  Warning: You are not running Wayland. HDR is not supported on X11."
-  exit -5
-fi
+  if [[ $XDG_SESSION_TYPE != "wayland" ]]; then
+    echo "⚠️  Warning: You are not running Wayland. HDR is not supported on X11."
+    exit 5
+  fi
 
-  HDR_CONTEXT=$(kscreen-doctor -o | grep -A 15 $MONITOR | grep "HDR" | awk '{ print $3 }')
-if [[ $HDR_CONTEXT == *"incapable"* ]]; then
-  echo "❌ HDR capabilities are either disabled or not supported on your current display."
-  echo ""
-  echo "Please check the correct display is configured in monitor.conf and that"
-  echo "HDR is both supported and enabled."
-elif [[ $HDR_CONTEXT == *"enabled"* || *"disabled"* ]]; then
-  echo "✅ HDR capabilities are supported on your current display."
-else
-  echo "ERROR: Unhandled HDR status"
-  exit -4
-fi
+  HDR_CONTEXT=$(kscreen-doctor -o | grep -A 15 "$MONITOR" | grep "HDR" | awk '{ print $3 }')
+  if [[ $HDR_CONTEXT == *"incapable"* ]]; then
+    echo "❌ HDR capabilities are either disabled or not supported on your current display."
+    echo ""
+    echo "Please check the correct display is configured in monitor.conf and that"
+    echo "HDR is both supported and enabled."
+  elif [[ $HDR_CONTEXT == *"abled"* ]]; then
+    echo "✅ HDR capabilities are supported on your current display."
+  else
+    echo "ERROR: Unhandled HDR status"
+    exit 4
+  fi
 }
 
 setup_conf_file() {
@@ -89,7 +89,7 @@ setup_conf_file() {
 }
 
 auto_hdr() {
-  if [[ $(kscreen-doctor -o | grep -A 15 $MONITOR | grep HDR) == *"enabled"* ]]; then
+  if [[ $(kscreen-doctor -o | grep -A 15 "$MONITOR" | grep HDR) == *"enabled"* ]]; then
     disable_hdr
   else
     enable_hdr
@@ -99,8 +99,7 @@ auto_hdr() {
 show_version() {
   echo "HDR Helper v"$VERSION
 }
-
-show_help () {
+show_help() {
   echo "=== Usage ==="
   echo "The default behaviour will automatically enable or disable HDR"
   echo "	hdr-helper (no args)"
@@ -136,21 +135,20 @@ if [[ $(whereis kscreen-doctor) != *"kscreen-doctor" ]]; then
   echo "Error: kscreen-doctor cannot be detected, aborting."
   echo "Please note that only KDE Plasma is currently supported on Wayland."
   echo ""
-  exit -1
+  exit 1
 fi
-
 
 import_config() {
   if [[ -f "$CONFIG_FILE" ]]; then
-    source $CONFIG_FILE
+    source "$CONFIG_FILE"
     if [[ $MONITOR == "" ]] || [[ $NATIVE_RES == "" ]] || [[ $TEMP_RES == "" ]]; then
       echo "Error: monitor.conf has not been configured."
-      exit -2
+      exit 2
     fi
   else
     echo "❌ Error: monitor.conf file not found. Please ensure it's been properly setup."
     echo "Try running 'hdr-helper -a' to try automatically generating one."
-    exit -3
+    exit 3
   fi
 }
 
