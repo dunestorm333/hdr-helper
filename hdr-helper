@@ -26,7 +26,7 @@ set_brightness() {
     grep Brightness |
     head -n 1 |
     grep -oP "(?<=set to )[0-9]+" \
-      >$CURR_BRIGHT_LVL_FILE
+      >"$CURR_BRIGHT_LVL_FILE"
 
   if [ -v SDR_TARGET_BRIGHTNESS ]; then
     kscreen-doctor output."$MONITOR".brightness."$SDR_TARGET_BRIGHTNESS"
@@ -38,9 +38,9 @@ set_brightness() {
 }
 
 restore_brightness() {
-  if [ -f $CURR_BRIGHT_LVL_FILE ]; then
-    kscreen-doctor output."$MONITOR".brightness."$(cat $CURR_BRIGHT_LVL_FILE)"
-    rm $CURR_BRIGHT_LVL_FILE
+  if [ -f "$CURR_BRIGHT_LVL_FILE" ]; then
+    kscreen-doctor output."$MONITOR".brightness."$(cat "$CURR_BRIGHT_LVL_FILE")"
+    rm "$CURR_BRIGHT_LVL_FILE"
   fi
 }
 
@@ -140,6 +140,7 @@ fi
 
 import_config() {
   if [[ -f "$CONFIG_FILE" ]]; then
+    # shellcheck source=monitor.conf
     source "$CONFIG_FILE"
     if [[ $MONITOR == "" ]] || [[ $NATIVE_RES == "" ]] || [[ $TEMP_RES == "" ]]; then
       echo "Error: monitor.conf has not been configured."
